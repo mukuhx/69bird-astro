@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+
+# 画像は git 管理しない（5.4GB）。wrangler direct upload で対応
+public/images/

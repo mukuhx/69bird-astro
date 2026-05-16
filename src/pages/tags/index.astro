@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('posts');
+
+const tagsMap = new Map<string, number>();
+for (const post of allPosts) {
+  for (const tag of post.data.tags) {
+    tagsMap.set(tag, (tagsMap.get(tag) ?? 0) + 1);
+  }
+}
+
+const tags = Array.from(tagsMap.entries())
+  .sort((a, b) => b[1] - a[1]);
+
+const maxCount = tags[0]?.[1] ?? 1;
+---
+
+<BaseLayout title="タグ一覧 | 69bird.jp">
+  <nav class="text-sm text-gray-500 mb-6">
+    <a href="/" class="hover:text-gray-700">トップ</a>
+    <span class="mx-2">›</span>
+    <span>タグ一覧</span>
+  </nav>
+
+  <h1 class="text-2xl font-bold mb-6">タグ一覧</h1>
+
+  <div class="flex flex-wrap gap-2">
+    {tags.map(([tag, count]) => {
+      const size = 0.75 + (count / maxCount) * 0.75;
+      return (
+        <a
+          href={`/tags/${tag}/`}
+          class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-700 transition-colors"
+          style={`font-size: ${size}rem`}
+        >
+          #{tag}
+          <span class="text-xs text-gray-400">({count})</span>
+        </a>
+      );
+    })}
+  </div>
+</BaseLayout>

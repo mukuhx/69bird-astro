@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('posts');
+const posts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const PAGE_SIZE = 20;
+const page = Number(Astro.url.searchParams.get('page') ?? 1);
+const totalPages = Math.ceil(posts.length / PAGE_SIZE);
+const pagePosts = posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+---
+
+<BaseLayout title="69bird.jp">
+  <h1 class="text-2xl font-bold mb-6">記事一覧</h1>
+  <p class="text-sm text-gray-500 mb-6">{posts.length} 本の記事</p>
+
+  <ul class="divide-y divide-gray-100">
+    {pagePosts.map((post) => (
+      <li class="py-4">
+        <a href={`/posts/${post.id}/`} class="group block">
+          <time class="text-xs text-gray-400 block mb-1">
+            {post.data.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span class="text-base font-medium text-gray-900 group-hover:text-blue-600 leading-snug">
+            {post.data.title}
+          </span>
+          {post.data.categories.length > 0 && (
+            <span class="mt-1 flex gap-1 flex-wrap">
+              {post.data.categories.map((cat) => (
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{cat}</span>
+              ))}
+            </span>
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  {totalPages > 1 && (
+    <nav class="mt-8 flex justify-center gap-2 text-sm">
+      {page > 1 && (
+        <a href={`/?page=${page - 1}`} class="px-3 py-1 border rounded hover:bg-gray-50">← 前</a>
+      )}
+      <span class="px-3 py-1 text-gray-500">{page} / {totalPages}</span>
+      {page < totalPages && (
+        <a href={`/?page=${page + 1}`} class="px-3 py-1 border rounded hover:bg-gray-50">次 →</a>
+      )}
+    </nav>
+  )}
+</BaseLayout>
