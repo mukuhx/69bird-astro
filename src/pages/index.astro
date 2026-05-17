@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Search from '../components/Search.astro';
 
 const allPosts = await getCollection('posts');
 const posts = allPosts
@@ -13,7 +14,8 @@ const pagePosts = posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 ---
 
 <BaseLayout title="69bird.jp">
-  <h1 class="text-2xl font-bold mb-6">記事一覧</h1>
+  <h1 class="text-2xl font-bold mb-4">69bird.jp</h1>
+  <Search />
   <p class="text-sm text-gray-500 mb-6">{posts.length} 本の記事</p>
 
   <ul class="divide-y divide-gray-100">

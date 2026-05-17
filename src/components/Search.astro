@@ -1,0 +1,36 @@
+---
+// Pagefind 検索コンポーネント
+// /pagefind/ はビルド後に生成されるため is:inline で Vite のバンドル対象から除外する
+---
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+<div id="search" class="mb-8"></div>
+
+<script is:inline>
+  (function () {
+    var script = document.createElement('script');
+    script.src = '/pagefind/pagefind-ui.js';
+    script.onload = function () {
+      new PagefindUI({
+        element: '#search',
+        showSubResults: false,
+        translations: {
+          placeholder: '記事を検索...',
+          zero_results: '[QUERY] の検索結果はありません',
+        },
+      });
+    };
+    document.head.appendChild(script);
+  })();
+</script>
+
+<style>
+  :root {
+    --pagefind-ui-primary: #2563eb;
+    --pagefind-ui-text: #111827;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #e5e7eb;
+    --pagefind-ui-border-radius: 0.5rem;
+    --pagefind-ui-font: inherit;
+  }
+</style>
