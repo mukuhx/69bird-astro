@@ -12,9 +12,20 @@ if [ -z "$message" ]; then
   message="記事を更新"
 fi
 
+# GitHubに保存
 git add -A
 git commit -m "$message"
 git push origin main
 
+# ビルド
 echo ""
-echo "完了！数分後に https://69bird.jp に反映されます。"
+echo "ビルド中..."
+npm run build
+
+# Cloudflareに直接デプロイ
+echo ""
+echo "Cloudflareにアップロード中..."
+npx wrangler pages deploy dist --project-name=69bird
+
+echo ""
+echo "完了！https://69bird.jp に反映されました。"
