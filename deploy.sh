@@ -1,14 +1,20 @@
 #!/bin/bash
-# 69bird.jp — Cloudflare Pages direct upload デプロイスクリプト
-# 使い方: bash deploy.sh [project-name]
-set -e
 
-PROJECT=${1:-69bird}
+cd "$(dirname "$0")"
 
-echo "=== ビルド開始 ==="
-npm run build
+echo "変更ファイルを確認中..."
+git status --short
 
-echo "=== Cloudflare Pages へアップロード ==="
-npx wrangler pages deploy dist/ --project-name "$PROJECT"
+echo ""
+read -p "アップロードするメッセージを入力してください（例: 記事を追加）: " message
 
-echo "=== 完了 ==="
+if [ -z "$message" ]; then
+  message="記事を更新"
+fi
+
+git add -A
+git commit -m "$message"
+git push origin main
+
+echo ""
+echo "完了！数分後に https://69bird.jp に反映されます。"

@@ -1,0 +1,6 @@
+{
+  "markdown.copyFiles.destination": {
+    "src/content/posts/**/*.md": "${documentWorkspaceFolder}/public/images/${fileName}"
+  },
+  "markdown.copyFiles.overwriteBehavior": "nameIncrementally"
+}
