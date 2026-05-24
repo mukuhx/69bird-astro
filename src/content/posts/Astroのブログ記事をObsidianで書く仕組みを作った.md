@@ -2,7 +2,6 @@
 title: テストAstroのブログ記事をObsidianで書く仕組みを作った記事
 date: 2026-05-24
 categories:
-  - ""
   - blog
 tags:
   - ブログ運営
