@@ -1,5 +1,5 @@
 ---
-title: テストAstroのブログ記事をObsidianで書く仕組みを作った記事
+title: Astroのブログ記事をObsidianで書く仕組みを作った
 date: 2026-05-24
 categories:
   - blog
